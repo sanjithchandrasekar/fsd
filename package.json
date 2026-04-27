@@ -1,0 +1,12 @@
+{
+  "name": "craftora-root",
+  "version": "1.0.0",
+  "description": "Root project to start both frontend and backend",
+  "scripts": {
+    "postinstall": "npm install --prefix craftora-frontend && npm install --prefix craftora-backend",
+    "dev": "concurrently \"npm run dev --prefix craftora-frontend\" \"npm run dev --prefix craftora-backend\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
