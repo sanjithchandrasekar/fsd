@@ -141,4 +141,4 @@ server.listen(PORT, () => {
   console.log(`📡 Socket.io ready\n`);
 });
 
-module.exports = { app, io };
+module.exports = app;
