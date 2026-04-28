@@ -23,66 +23,52 @@ const chatRoutes = require('./routes/chatRoutes');
 connectDB();
 
 const app = express();
-const server = http.createServer(app);
 
-// Socket.io setup
-const io = new Server(server, {
-  cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
-    methods: ['GET', 'POST'],
-  },
-});
-
-// Track online users
-const onlineUsers = new Map();
-
-io.on('connection', (socket) => {
-  console.log(`⚡ Socket connected: ${socket.id}`);
-
-  // User joins with their userId
-  socket.on('user:online', (userId) => {
-    onlineUsers.set(userId, socket.id);
-    io.emit('users:online', Array.from(onlineUsers.keys()));
+// --- ONLY RUN SOCKET.IO LOCALLY ---
+if (process.env.NODE_ENV !== 'production') {
+  const server = http.createServer(app);
+  const io = new Server(server, {
+    cors: {
+      origin: process.env.CLIENT_URL || 'http://localhost:5173',
+      methods: ['GET', 'POST'],
+    },
   });
 
-  // Join a conversation room
-  socket.on('conversation:join', (conversationId) => {
-    socket.join(conversationId);
-  });
+  const onlineUsers = new Map();
 
-  // Real-time message
-  socket.on('message:send', (data) => {
-    // Broadcast to all in conversation room
-    io.to(data.conversationId).emit('message:receive', data);
-  });
-
-  // Typing indicator
-  socket.on('typing:start', (data) => {
-    socket.to(data.conversationId).emit('typing:start', { userId: data.userId });
-  });
-  socket.on('typing:stop', (data) => {
-    socket.to(data.conversationId).emit('typing:stop', { userId: data.userId });
-  });
-
-  // Order status notification
-  socket.on('order:update', (data) => {
-    const recipientSocket = onlineUsers.get(data.userId);
-    if (recipientSocket) {
-      io.to(recipientSocket).emit('order:status_changed', data);
-    }
-  });
-
-  socket.on('disconnect', () => {
-    for (const [uid, sid] of onlineUsers.entries()) {
-      if (sid === socket.id) {
-        onlineUsers.delete(uid);
-        break;
+  io.on('connection', (socket) => {
+    console.log(`⚡ Socket connected: ${socket.id}`);
+    socket.on('user:online', (userId) => {
+      onlineUsers.set(userId, socket.id);
+      io.emit('users:online', Array.from(onlineUsers.keys()));
+    });
+    socket.on('conversation:join', (conversationId) => socket.join(conversationId));
+    socket.on('message:send', (data) => io.to(data.conversationId).emit('message:receive', data));
+    socket.on('typing:start', (data) => socket.to(data.conversationId).emit('typing:start', { userId: data.userId }));
+    socket.on('typing:stop', (data) => socket.to(data.conversationId).emit('typing:stop', { userId: data.userId }));
+    socket.on('order:update', (data) => {
+      const recipientSocket = onlineUsers.get(data.userId);
+      if (recipientSocket) io.to(recipientSocket).emit('order:status_changed', data);
+    });
+    socket.on('disconnect', () => {
+      for (const [uid, sid] of onlineUsers.entries()) {
+        if (sid === socket.id) {
+          onlineUsers.delete(uid);
+          break;
+        }
       }
-    }
-    io.emit('users:online', Array.from(onlineUsers.keys()));
-    console.log(`🔌 Socket disconnected: ${socket.id}`);
+      io.emit('users:online', Array.from(onlineUsers.keys()));
+      console.log(`🔌 Socket disconnected: ${socket.id}`);
+    });
   });
-});
+
+  const PORT = process.env.PORT || 5000;
+  server.listen(PORT, () => {
+    console.log(`\n🚀 Craftora Server running on port ${PORT}`);
+    console.log(`🌐 Mode: ${process.env.NODE_ENV}`);
+    console.log(`📡 Socket.io ready\n`);
+  });
+}
 
 // Static file serving for locally uploaded product images
 app.use('/uploads', express.static('public/uploads'));
@@ -137,14 +123,5 @@ app.use('/api', adminRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
-// Only start the server locally. Vercel handles the listening automatically.
-if (process.env.NODE_ENV !== 'production') {
-  server.listen(PORT, () => {
-    console.log(`\n🚀 Craftora Server running on port ${PORT}`);
-    console.log(`🌐 Mode: ${process.env.NODE_ENV}`);
-    console.log(`📡 Socket.io ready\n`);
-  });
-}
-
+// Export app for Vercel
 module.exports = app;
