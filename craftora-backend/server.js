@@ -20,9 +20,10 @@ const feedRoutes = require('./routes/feedRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 
 // Connect to MongoDB
-connectDB();
+connectDB().catch(err => console.error('Initial DB Connection Error:', err));
 
 const app = express();
+app.get('/api/ping', (req, res) => res.send('pong'));
 
 // --- ONLY RUN SOCKET.IO LOCALLY ---
 if (process.env.NODE_ENV !== 'production') {
