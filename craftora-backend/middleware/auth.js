@@ -51,8 +51,4 @@ const sellerOrAdmin = (req, res, next) => {
   throw new Error('Access denied: Sellers only');
 };
 
-// Generate JWT token
-const generateToken = (id) =>
-  jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE || '30d' });
-
 module.exports = { protect, adminOnly, sellerOrAdmin, generateToken };
