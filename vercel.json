@@ -1,10 +1,17 @@
 {
   "version": 2,
-  "outputDirectory": "craftora-frontend/dist",
   "builds": [
     {
       "src": "craftora-backend/server.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "craftora-frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist",
+        "buildCommand": "npm install && npm run build"
+      }
     }
   ],
   "rewrites": [
@@ -14,7 +21,7 @@
     },
     {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": "craftora-frontend/index.html"
     }
   ]
 }
