@@ -135,10 +135,13 @@ app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
-  console.log(`\n🚀 Craftora Server running on port ${PORT}`);
-  console.log(`🌐 Mode: ${process.env.NODE_ENV}`);
-  console.log(`📡 Socket.io ready\n`);
-});
+// Only start the server locally. Vercel handles the listening automatically.
+if (process.env.NODE_ENV !== 'production') {
+  server.listen(PORT, () => {
+    console.log(`\n🚀 Craftora Server running on port ${PORT}`);
+    console.log(`🌐 Mode: ${process.env.NODE_ENV}`);
+    console.log(`📡 Socket.io ready\n`);
+  });
+}
 
 module.exports = app;
