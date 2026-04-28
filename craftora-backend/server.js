@@ -6,6 +6,9 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const connectDB = require('./config/db');
+const mongoose = require('mongoose');
+const User = require('./models/User');
+const Product = require('./models/Product');
 const { errorHandler, notFound } = require('./middleware/errorHandler');
 
 // Route imports
@@ -97,6 +100,26 @@ if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ success: true, message: '🎨 Craftora API is running', env: process.env.NODE_ENV });
+});
+
+// DB Check endpoint
+app.get('/api/db-check', async (req, res) => {
+  try {
+    const userCount = await User.countDocuments();
+    const productCount = await Product.countDocuments();
+    res.json({
+      success: true,
+      status: 'Connected',
+      database: mongoose.connection.name,
+      host: mongoose.connection.host,
+      stats: {
+        users: userCount,
+        products: productCount
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
 
 // API Routes

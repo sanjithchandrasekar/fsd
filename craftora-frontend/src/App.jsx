@@ -23,6 +23,7 @@ const ChatPage         = lazy(() => import('./pages/ChatPage'));
 const SellerDashboard  = lazy(() => import('./pages/SellerDashboard'));
 const AdminPage        = lazy(() => import('./pages/AdminPage'));
 const AboutPage        = lazy(() => import('./pages/AboutPage'));
+const DbTestPage       = lazy(() => import('./pages/DbTestPage'));
 
 // Query client config
 const queryClient = new QueryClient({
@@ -106,6 +107,7 @@ export default function App() {
               <Route path="/artisans/:id"     element={<ArtisansPage />} />
               <Route path="/feed"             element={<FeedPage />} />
               <Route path="/about"            element={<AboutPage />} />
+              <Route path="/test"             element={<DbTestPage />} />
 
               {/* Protected (logged-in users) */}
               <Route element={<ProtectedRoute />}>
