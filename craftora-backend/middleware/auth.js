@@ -2,6 +2,13 @@ const jwt = require('jsonwebtoken');
 const asyncHandler = require('express-async-handler');
 const User = require('../models/User');
 
+const generateToken = (id) => {
+  const secret = process.env.JWT_SECRET || 'craftora_dummy_jwt_secret_123';
+  return jwt.sign({ id }, secret, {
+    expiresIn: process.env.JWT_EXPIRE || '30d',
+  });
+};
+
 // Protect routes - verify JWT
 const protect = asyncHandler(async (req, res, next) => {
   let token;
@@ -16,7 +23,8 @@ const protect = asyncHandler(async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const secret = process.env.JWT_SECRET || 'craftora_dummy_jwt_secret_123';
+    const decoded = jwt.verify(token, secret);
     req.user = await User.findById(decoded.id).select('-password');
     if (!req.user) {
       res.status(401);
