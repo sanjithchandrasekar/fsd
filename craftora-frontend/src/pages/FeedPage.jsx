@@ -110,8 +110,9 @@ function FeedCard({ post, onLike }) {
         {/* Author */}
         <div className="flex items-center gap-3 mb-3">
           <img
-            src={post.author?.avatar?.url || `https://placehold.co/40x40/F2EBE0/C1693A?text=${post.author?.name?.[0] || 'A'}`}
+            src={post.author?.avatar?.url || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author?.name || 'A')}&background=C1693A&color=fff&size=80&bold=true`}
             alt="" className="w-9 h-9 rounded-xl object-cover"
+            onError={(e) => { e.target.onerror=null; e.target.src='https://ui-avatars.com/api/?name=A&background=C1693A&color=fff&size=80'; }}
           />
           <div>
             <p className="font-semibold text-sm" style={{ color: 'var(--charcoal)' }}>

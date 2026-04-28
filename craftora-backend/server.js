@@ -81,6 +81,9 @@ io.on('connection', (socket) => {
   });
 });
 
+// Static file serving for locally uploaded product images
+app.use('/uploads', express.static('public/uploads'));
+
 // Middleware
 app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(cors({

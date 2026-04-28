@@ -27,14 +27,14 @@ const footerLinks = {
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden pt-20 pb-8" style={{ background: 'var(--charcoal)' }}>
+    <footer className="relative overflow-hidden pt-32 pb-12 mt-20" style={{ background: 'var(--charcoal)' }}>
       {/* Decorative blobs */}
       <div className="blob w-96 h-96 -top-20 -left-20" style={{ background: 'var(--terracotta)' }} />
       <div className="blob w-64 h-64 bottom-10 right-10" style={{ background: 'var(--clay)' }} />
 
       <div className="section-container relative z-10">
         {/* Top grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-16 mb-24">
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-6 group">
@@ -85,13 +85,13 @@ export default function Footer() {
         </div>
 
         {/* Newsletter */}
-        <div className="glass rounded-2xl p-8 mb-12" style={{ borderColor: 'rgba(193,105,58,0.2)' }}>
-          <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
+        <div className="glass rounded-[2rem] p-10 md:p-14 mb-16 shadow-2xl" style={{ borderColor: 'rgba(193,105,58,0.2)' }}>
+          <div className="flex flex-col md:flex-row gap-8 items-center justify-between">
             <div>
-              <h3 className="font-display text-xl font-semibold text-white mb-1">Stay Inspired</h3>
-              <p className="text-sm" style={{ color: 'var(--warm-gray)' }}>Get artisan stories & new arrivals in your inbox.</p>
+              <h3 className="font-display text-3xl font-bold text-white mb-3">Stay Inspired</h3>
+              <p className="text-base" style={{ color: 'var(--warm-gray)' }}>Get artisan stories & new arrivals directly to your inbox.</p>
             </div>
-            <div className="flex gap-3 w-full md:w-auto">
+            <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
               <input
                 type="email"
                 placeholder="your@email.com"

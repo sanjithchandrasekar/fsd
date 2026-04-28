@@ -178,7 +178,7 @@ export default function ProductDetailPage() {
     <div className="pt-24 pb-16 min-h-screen" style={{ background: 'var(--cream)' }}>
       <div className="section-container">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-xs mb-8" style={{ color: 'var(--warm-gray)' }}>
+        <div className="flex items-center gap-2 text-xs mb-12" style={{ color: 'var(--warm-gray)' }}>
           <Link to="/" className="hover:text-terracotta transition-colors">Home</Link>
           <span>/</span>
           <Link to="/shop" className="hover:text-terracotta transition-colors">Shop</Link>
@@ -188,7 +188,7 @@ export default function ProductDetailPage() {
           <span style={{ color: 'var(--charcoal)' }}>{product.title}</span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 mb-24">
           {/* Gallery */}
           <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
             <ImageGallery images={product.images} />
@@ -221,7 +221,7 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Price */}
-            <div className="flex items-baseline gap-3 mb-6">
+            <div className="flex items-baseline gap-4 mb-8">
               <span className="font-display text-4xl font-bold" style={{ color: 'var(--terracotta)' }}>
                 {formatPrice(finalPrice)}
               </span>
@@ -233,38 +233,38 @@ export default function ProductDetailPage() {
             {/* Seller card */}
             {product.seller && (
               <Link to={`/artisans/${product.seller._id}`}>
-                <div className="flex items-center gap-3 p-4 rounded-2xl mb-6 cursor-pointer hover:border-terracotta transition-all"
+                <div className="flex items-center gap-4 p-5 rounded-2xl mb-8 cursor-pointer hover:border-terracotta transition-all"
                   style={{ background: 'var(--parchment)', border: '1px solid var(--sand)' }}>
                   <img
                     src={product.seller.avatar?.url || `https://placehold.co/50x50/F2EBE0/C1693A?text=${product.seller.name[0]}`}
                     alt={product.seller.name}
-                    className="w-11 h-11 rounded-xl object-cover"
+                    className="w-12 h-12 rounded-xl object-cover flex-shrink-0"
                   />
-                  <div>
+                  <div className="flex-1 min-w-0">
                     <p className="font-semibold text-sm" style={{ color: 'var(--charcoal)' }}>
                       {product.seller.name}
-                      {product.seller.isVerified && <span className="ml-1 text-terracotta">✓</span>}
+                      {product.seller.isVerified && <span className="ml-2 text-terracotta">✓</span>}
                     </p>
                     {product.seller.location?.city && (
-                      <p className="text-xs flex items-center gap-1" style={{ color: 'var(--warm-gray)' }}>
+                      <p className="text-xs flex items-center gap-1 mt-1" style={{ color: 'var(--warm-gray)' }}>
                         <MapPin size={10} /> {product.seller.location.city}, {product.seller.location.country}
                       </p>
                     )}
                   </div>
-                  <span className="ml-auto text-xs font-medium" style={{ color: 'var(--terracotta)' }}>View Profile →</span>
+                  <span className="text-xs font-medium flex-shrink-0" style={{ color: 'var(--terracotta)' }}>View Profile →</span>
                 </div>
               </Link>
             )}
 
             {/* Details */}
-            <div className="grid grid-cols-2 gap-3 mb-6">
+            <div className="grid grid-cols-2 gap-4 mb-8">
               {[
                 { icon: <Package size={14} />, label: 'Processing Time', value: product.processingTime || '3-5 days' },
                 { icon: <Clock size={14} />, label: 'Stock', value: product.stock > 0 ? `${product.stock} available` : 'Out of stock' },
               ].map(({ icon, label, value }) => (
-                <div key={label} className="flex items-center gap-2 p-3 rounded-xl" style={{ background: 'var(--parchment)' }}>
+                <div key={label} className="flex items-center gap-3 p-4 rounded-xl" style={{ background: 'var(--parchment)' }}>
                   <span style={{ color: 'var(--terracotta)' }}>{icon}</span>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-xs" style={{ color: 'var(--warm-gray)' }}>{label}</p>
                     <p className="text-sm font-medium" style={{ color: 'var(--charcoal)' }}>{value}</p>
                   </div>
@@ -274,13 +274,13 @@ export default function ProductDetailPage() {
 
             {/* Quantity */}
             {product.stock > 0 && (
-              <div className="flex items-center gap-4 mb-4">
+              <div className="flex items-center gap-4 mb-6">
                 <span className="text-sm font-medium" style={{ color: 'var(--charcoal)' }}>Quantity</span>
-                <div className="flex items-center gap-3 rounded-xl px-3 py-2" style={{ background: 'var(--parchment)', border: '1px solid var(--sand)' }}>
-                  <button className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-terracotta hover:text-white transition-all font-bold"
+                <div className="flex items-center gap-3 rounded-xl px-4 py-3" style={{ background: 'var(--parchment)', border: '1px solid var(--sand)' }}>
+                  <button className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-terracotta hover:text-white transition-all font-bold"
                     onClick={() => setQty((q) => Math.max(1, q - 1))}>−</button>
                   <span className="w-8 text-center font-semibold" style={{ color: 'var(--charcoal)' }}>{qty}</span>
-                  <button className="w-7 h-7 rounded-lg flex items-center justify-center hover:bg-terracotta hover:text-white transition-all font-bold"
+                  <button className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-terracotta hover:text-white transition-all font-bold"
                     onClick={() => setQty((q) => Math.min(product.stock, q + 1))}>+</button>
                 </div>
               </div>
@@ -288,12 +288,12 @@ export default function ProductDetailPage() {
 
             {/* Custom note */}
             {product.isCustomizable && (
-              <div className="mb-4">
-                <label className="block text-xs font-semibold mb-2 uppercase tracking-wide" style={{ color: 'var(--terracotta)' }}>
+              <div className="mb-6">
+                <label className="block text-xs font-semibold mb-3 uppercase tracking-wide" style={{ color: 'var(--terracotta)' }}>
                   Customization Note
                 </label>
                 <textarea
-                  className="input-field text-sm resize-none h-20"
+                  className="input-field text-sm resize-none h-24"
                   placeholder={product.customizationDetails || 'Describe your customization…'}
                   value={customNote}
                   onChange={(e) => setCustomNote(e.target.value)}
@@ -302,7 +302,7 @@ export default function ProductDetailPage() {
             )}
 
             {/* CTA Buttons */}
-            <div className="flex gap-3">
+            <div className="flex gap-4">
               <motion.button
                 className="btn-primary flex-1 justify-center text-base py-4"
                 onClick={handleAddToCart}
@@ -341,12 +341,12 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Tab Section */}
-        <div className="mb-16">
-          <div className="flex gap-2 mb-6 border-b" style={{ borderColor: 'var(--sand)' }}>
+        <div className="mb-20">
+          <div className="flex gap-3 mb-8 border-b" style={{ borderColor: 'var(--sand)' }}>
             {['description', 'artisan', 'reviews'].map((t) => (
               <button
                 key={t}
-                className={`px-5 py-3 text-sm font-semibold capitalize transition-all border-b-2 -mb-px ${tab === t ? 'border-terracotta text-terracotta' : 'border-transparent'}`}
+                className={`px-6 py-4 text-sm font-semibold capitalize transition-all border-b-2 -mb-px ${tab === t ? 'border-terracotta text-terracotta' : 'border-transparent'}`}
                 style={{ color: tab === t ? 'var(--terracotta)' : 'var(--warm-gray)' }}
                 onClick={() => setTab(t)}
               >

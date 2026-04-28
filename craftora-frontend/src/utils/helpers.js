@@ -59,4 +59,4 @@ export const isInWishlist = (wishlist = [], productId) =>
 
 // Generate image placeholder URL
 export const imgPlaceholder = (w = 400, h = 400, text = 'Craftora') =>
-  `https://placehold.co/${w}x${h}/F2EBE0/C1693A?text=${encodeURIComponent(text)}&font=playfair-display`;
+  `https://placehold.co/${w}x${h}/F2EBE0/C1693A?text=-&font=playfair-display`;

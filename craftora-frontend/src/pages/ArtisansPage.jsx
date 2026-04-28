@@ -58,9 +58,10 @@ export default function ArtisansPage() {
                   </div>
 
                   <img
-                    src={a.avatar?.url || `https://placehold.co/120x120/F2EBE0/C1693A?text=${a.name[0]}`}
+                    src={a.avatar?.url || `https://ui-avatars.com/api/?name=${encodeURIComponent(a.name)}&background=C1693A&color=fff&size=128&bold=true&rounded=true`}
                     alt={a.name}
                     className="w-24 h-24 rounded-2xl object-cover mx-auto mb-4 mt-2"
+                    onError={(e) => { e.target.onerror=null; e.target.src=`https://ui-avatars.com/api/?name=${a.name[0]}&background=C1693A&color=fff&size=128`; }}
                   />
                   <div className="flex items-center justify-center gap-1 mb-1">
                     <h3 className="font-display text-xl font-semibold" style={{ color: 'var(--charcoal)' }}>{a.name}</h3>
@@ -109,9 +110,10 @@ export default function ArtisansPage() {
                   transition={{ delay: i * 0.06 }}
                 >
                   <img
-                    src={a.avatar?.url || `https://placehold.co/100x100/F2EBE0/C1693A?text=${a.name[0]}`}
+                    src={a.avatar?.url || `https://ui-avatars.com/api/?name=${encodeURIComponent(a.name)}&background=C1693A&color=fff&size=80&bold=true&rounded=true`}
                     alt={a.name}
                     className="w-16 h-16 rounded-2xl object-cover mx-auto mb-3"
+                    onError={(e) => { e.target.onerror=null; e.target.src=`https://ui-avatars.com/api/?name=${a.name[0]}&background=C1693A&color=fff&size=80`; }}
                   />
                   <div className="flex items-center justify-center gap-1 mb-1">
                     <h3 className="font-semibold text-sm" style={{ color: 'var(--charcoal)' }}>{a.name}</h3>
