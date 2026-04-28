@@ -20,6 +20,14 @@
       "destination": "craftora-backend/server.js"
     },
     {
+      "source": "/assets/(.*)",
+      "destination": "craftora-frontend/assets/$1"
+    },
+    {
+      "source": "/images/(.*)",
+      "destination": "craftora-frontend/images/$1"
+    },
+    {
       "source": "/(.*)",
       "destination": "craftora-frontend/index.html"
     }
