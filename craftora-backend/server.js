@@ -92,9 +92,6 @@ app.get('/api/health', (req, res) => {
 // DB Check endpoint
 app.get('/api/db-check', async (req, res) => {
   try {
-    if (mongoose.connection.readyState !== 1) {
-      throw new Error(`Database not connected (readyState: ${mongoose.connection.readyState}). Please check Atlas IP Whitelist and MONGO_URI.`);
-    }
     const userCount = await User.countDocuments();
     const productCount = await Product.countDocuments();
     res.json({
