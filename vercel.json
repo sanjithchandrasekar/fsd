@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "craftora-backend/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "craftora-frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "craftora-backend/server.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "craftora-frontend/$1"
+    }
+  ]
+}
